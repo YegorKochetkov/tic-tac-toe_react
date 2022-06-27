@@ -40,6 +40,10 @@ export const Board: React.FC = () => {
             key={index}
           />
         ))}
+        <div className="board__edge"></div>
+        <div className="board__edge board__edge--2"></div>
+        <div className="board__edge board__edge--3"></div>
+        <div className="board__edge board__edge--4"></div>
       </div>
     </section>
   );

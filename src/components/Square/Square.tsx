@@ -10,10 +10,9 @@ type Props = {
 export const Square: React.FC<Props> = ({ square, handleClick }) => {
   return (
     <div onClick={handleClick} className="square">
-      <div className={classNames(
-        "square__content", {
+      <div className={classNames({
         "square__x": square === "x",
-        "square__o": square === "o"
+        "square__o": square === "o",
         })}
       >
         {square}

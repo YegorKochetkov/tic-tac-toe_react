@@ -1,31 +1,46 @@
-@mixin onTablet() {
-  @media (min-width: 768px) {
-    @content;
-  }
-}
-
-@mixin onDesktop() {
-  @media (min-width: 1024px) {
-    @content;
-  }
-}
-
-@mixin onDesktopHigh() {
-  @media (min-width: 2560px) {
-    @content;
-  }
-}
+@import "../../utils/mixins.scss";
 
 .board {
-  min-width: 360px;
-  max-width: 2560px;
-  padding: 20px;
+  padding: 30px;
   
   &__grid {
+    position: relative;
+    
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
-    gap: 10px;
+
+    background-color: #44425d;
+  }
+
+  &__edge {
+    position: absolute;
+    top: 32.5%;
+    left: -3%;
+
+    width: 105%;
+    height: 1.7%;
+
+    background-color: #a855c0;
+    border-radius: 10px;
+  
+    &--2 {
+      top: 66%;
+    }
+  
+    &--3 {
+      top: 49%;
+      left: -19%;
+
+      transform: rotate(90deg);
+    }
+  
+    &--4 {
+      top: 49%;
+      left: 14%;
+
+      transform: rotate(90deg);
+    }
   }
 
   &__title {

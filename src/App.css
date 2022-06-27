@@ -1,6 +1,11 @@
 .App {
   margin: 0 auto;
+
+  min-width: 360px;
+  min-height: 450px;
   max-width: calc(100vh * .8);
 
   text-align: center;
+  color: #f7f7f7;
+  background-color: #55617e;
 }
