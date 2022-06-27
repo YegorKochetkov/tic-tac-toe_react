@@ -31,7 +31,6 @@ export const Board: React.FC = () => {
 
   return (
     <section className="board">
-      <h1 className="board__title">{status}</h1>
       <div className="board__grid">
         {squares.map((square, index) => (
           <Square
@@ -44,6 +43,9 @@ export const Board: React.FC = () => {
         <div className="board__edge board__edge--2"></div>
         <div className="board__edge board__edge--3"></div>
         <div className="board__edge board__edge--4"></div>
+      </div>
+      <div className="board__info">
+        <h1 className="board__title">{status}</h1>
       </div>
     </section>
   );

@@ -14,9 +14,7 @@ export const Square: React.FC<Props> = ({ square, handleClick }) => {
         "square__x": square === "x",
         "square__o": square === "o",
         })}
-      >
-        {square}
-      </div>
+      />
     </div>
   );
 };

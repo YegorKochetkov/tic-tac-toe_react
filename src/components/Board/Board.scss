@@ -1,11 +1,15 @@
 @import "../../utils/mixins.scss";
 
 .board {
-  padding: 30px;
+  display: flex;
+  justify-content: flex-start;
+  gap: 20px;
   
   &__grid {
     position: relative;
-    
+    width: 60%;
+    max-width: 80vh;
+
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     grid-template-rows: repeat(3, 1fr);
@@ -44,10 +48,15 @@
   }
 
   &__title {
-    font-size: 26px;
+    display: inline-block;
+
+    margin: 0;
+    padding: 0;
+
+    font-size: 18px;
 
     @include onTablet() {
-      font-size: 32px;
+      font-size: 24px;
     }
 
     @include onDesktop() {
