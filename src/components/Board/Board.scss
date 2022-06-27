@@ -3,7 +3,7 @@
 .board {
   display: flex;
   justify-content: flex-start;
-  gap: 20px;
+  gap: 40px;
   
   &__grid {
     position: relative;
@@ -20,7 +20,7 @@
   &__edge {
     position: absolute;
     top: 32.5%;
-    left: -3%;
+    left: -2.5%;
 
     width: 105%;
     height: 1.7%;
@@ -33,14 +33,14 @@
     }
   
     &--3 {
-      top: 49%;
+      top: 49.25%;
       left: -19%;
 
       transform: rotate(90deg);
     }
   
     &--4 {
-      top: 49%;
+      top: 49.25%;
       left: 14%;
 
       transform: rotate(90deg);
@@ -66,5 +66,12 @@
     @include onDesktopHigh() {
       font-size: 52px;
     }
+  }
+
+  &__info {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    gap: 10px;
   }
 }

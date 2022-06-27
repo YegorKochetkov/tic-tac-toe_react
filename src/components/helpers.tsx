@@ -19,3 +19,11 @@ export function calculateWinner(squares: string[]) {
 
   return null;
 }
+
+export function calculateDraw(squares: string[]) {
+  if (!squares.includes(" ")) {
+    return "draw";
+  }
+
+  return null;
+}
