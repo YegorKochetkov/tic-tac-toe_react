@@ -1,0 +1,46 @@
+@mixin onTablet() {
+  @media (min-width: 768px) {
+    @content;
+  }
+}
+
+@mixin onDesktop() {
+  @media (min-width: 1024px) {
+    @content;
+  }
+}
+
+@mixin onDesktopHigh() {
+  @media (min-width: 2560px) {
+    @content;
+  }
+}
+
+.board {
+  min-width: 360px;
+  max-width: 2560px;
+  padding: 20px;
+  
+  &__grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  &__title {
+    font-size: 26px;
+
+    @include onTablet() {
+      font-size: 32px;
+    }
+
+    @include onDesktop() {
+      font-size: 42px;
+    }
+
+    @include onDesktopHigh() {
+      font-size: 52px;
+    }
+  }
+}
