@@ -1,0 +1,82 @@
+.square {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  min-width: 100px;
+  margin: 0;
+  padding: 0;
+
+  background-color: bisque;
+
+  &::after {
+    content: "";
+    display: block;
+    padding-bottom: 100%;
+  }
+
+  &__x {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    width: 100%;
+    height: 100%;
+    
+    &::after,
+    &::before {
+      content: "";
+
+      position: absolute;
+
+      display: block;
+      width: 100%;
+      height: 8%;
+      
+      background-color: black;
+    }
+  
+    &::after {
+      transform: rotate(45deg);
+    }
+  
+    &::before {
+      transform: rotate(-45deg);
+    }
+  }
+
+  &__o {
+    position: relative;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    min-width: 100%;
+    height: 100%;
+    
+    &::after,
+    &::before {
+      content: "";
+
+      position: absolute;
+
+      display: block;
+      width: 90%;
+      height: 90%;
+      
+      border-radius: 50%;
+      background-color: black;
+    }
+  
+    &::after {
+      width: 75%;
+      height: 75%;
+
+      background-color: bisque;
+    }
+  }
+}
