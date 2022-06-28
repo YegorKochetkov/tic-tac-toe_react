@@ -3,12 +3,31 @@
 .board {
   display: flex;
   justify-content: flex-start;
-  gap: 40px;
-  
+  gap: 20px;
+
+  font-size: 18px;
+  text-align: left;
+
+  @include onTablet() {
+    font-size: 24px;
+    gap: 30px;
+  }
+
+  @include onDesktop() {
+    font-size: 52px;
+    gap: 60px;
+  }
+
+  @include onDesktopHigh() {
+    font-size: 72px;
+    gap: 100px;
+  }
+
   &__grid {
     position: relative;
     width: 60%;
     max-width: 80vh;
+    min-width: 180px;
 
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -52,20 +71,6 @@
 
     margin: 0;
     padding: 0;
-
-    font-size: 18px;
-
-    @include onTablet() {
-      font-size: 24px;
-    }
-
-    @include onDesktop() {
-      font-size: 42px;
-    }
-
-    @include onDesktopHigh() {
-      font-size: 52px;
-    }
   }
 
   &__info {
@@ -80,6 +85,14 @@
     padding: 5px 10px;
     
     min-width: 100px;
+    
+    @include onTablet() {
+      font-size: 1em;
+    }
+
+    @include onDesktop() {
+      padding: 10px 20px;
+    }
 
     &:hover {
       cursor: pointer;

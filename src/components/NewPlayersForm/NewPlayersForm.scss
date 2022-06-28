@@ -1,3 +1,5 @@
+@import "../../utils/mixins.scss";
+
 .form {
   display: flex;
   flex-direction: column;
@@ -8,6 +10,21 @@
   padding: 20px;
 
   color: black;
+  font-size: 18px;
+
+  @include onTablet() {
+    font-size: 24px;
+  }
+
+  @include onDesktop() {
+    gap: 15px;
+    font-size: 42px;
+  }
+
+  @include onDesktopHigh() {
+    font-size: 72px;
+    padding: 40px;
+  }
 
   &__title {
     padding: 0;
@@ -17,14 +34,33 @@
 
   &__input {
     padding: 5px;
+    margin-bottom: 10px;
+    width: 80%;
+
+    font-size: inherit;
+    border: 1px solid #868686;
+    border-radius: 5px;
+
+    @include onDesktopHigh() {
+      padding: 15px;
+    }
   }
 
   &__submit {
-    width: fit-content;
     min-width: 100px;
+
+    font-size: inherit;
 
     margin-top: 20px;
     padding: 5px 10px;
+
+    @include onDesktop() {
+      padding: 5px 20px;
+    }
+
+    @include onDesktopHigh() {
+      padding: 10px 30px;
+    }
 
     &:hover {
       cursor: pointer;

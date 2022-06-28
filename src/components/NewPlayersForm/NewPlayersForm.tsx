@@ -41,7 +41,7 @@ export const NewPlayersForm: React.FC<Props> = ({
       className="form"
     >
       <p className="form__title">
-        Please, enter players  game:
+        Please, enter players name:
       </p>
       <label htmlFor="player1">
         Player 1: 
