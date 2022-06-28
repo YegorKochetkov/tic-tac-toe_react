@@ -12,7 +12,7 @@ export const Board: React.FC = () => {
   const [players, setPlayers] = useState(["Player1", "Player2"])
   const [showModal, setShowModal] = useState(true);
 
-  const winner = calculateWinner(squares);
+  const [winner, winLine] = calculateWinner(squares) || [null, null];
   const draw = calculateDraw(squares);
   let status;
 
@@ -22,7 +22,11 @@ export const Board: React.FC = () => {
     status = "Next player: " + (isXNext ? players[0] : players[1]);
   }
 
-  const handleClick = (i: number) => {
+  if (draw) {
+    status = "Draw!";
+  }
+
+  const handleClick = useCallback((i: number) => {
     const newSquares = squares.slice();
 
     if (calculateWinner(newSquares) || newSquares[i] !== " ") {
@@ -32,14 +36,8 @@ export const Board: React.FC = () => {
     newSquares[i] = isXNext ? players[0] : players[1];
 
     setSquares(newSquares);
-    
-    if (calculateDraw(newSquares)) {
-      console.log(calculateDraw(newSquares), "h")
-      setShowModal(true);
-    }
-
     setIsXNext(!isXNext);
-  }
+  }, [isXNext, players, squares]);
 
   const formik = useFormik({
      initialValues: {
@@ -63,27 +61,31 @@ export const Board: React.FC = () => {
      },
    });
 
-  const setNewScore = useCallback(() => {
+  const setNewScore = () => {
     const newScore = score.slice();
 
-    if (winner === players[0]) {
+    if (winner && winner === players[0]) {
       newScore[0] = score[0] + 1;
     } 
 
-    if (winner === players[1]) {
+    if (winner && winner === players[1]) {
       newScore[1] = score[1] + 1;
     }
 
     setScore(newScore);
+  };
+
+  const handleNewGame = () => {
     setSquares(Array(9).fill(" "));
     setIsXNext(true);
-  }, [players, score, winner]);
+  };
 
   useEffect(() => {
     if (winner) {
       setNewScore();
     }
-  }, [setNewScore, winner]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [winner]);
 
   return (
     <>
@@ -98,9 +100,10 @@ export const Board: React.FC = () => {
             />
           ))}
           <div className="board__edge"></div>
-          <div className="board__edge board__edge--2"></div>
-          <div className="board__edge board__edge--3"></div>
-          <div className="board__edge board__edge--4"></div>
+          <div className="board__edge board__edge--2" />
+          <div className="board__edge board__edge--3" />
+          <div className="board__edge board__edge--4" />
+          <div className={`board__winLine board__winLine--${winLine}`} />
         </div>
         <div className="board__info">
           <p className="board__title">
@@ -115,8 +118,17 @@ export const Board: React.FC = () => {
           <p className="board__title">
             {players[1]}: {score[1]}
           </p>
+          <button
+            type="button"
+            className="board__new-game"
+            onClick={handleNewGame}
+            disabled={!winner && !draw}
+          >
+            New game
+          </button>
         </div>
       </section>
+      
       <Modal show={showModal}>
         <p>Please, enter players  game:</p>
         <form onSubmit={formik.handleSubmit}>
