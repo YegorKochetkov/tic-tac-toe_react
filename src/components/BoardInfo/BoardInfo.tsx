@@ -5,8 +5,6 @@ type Props = {
   players: string[],
   score: number[],
   handleNewGame: () => void,
-  winner: string | number | null,
-  draw: string | null,
 };
 
 export const BoardInfo: React.FC<Props> = ({
@@ -14,9 +12,9 @@ export const BoardInfo: React.FC<Props> = ({
   players,
   score,
   handleNewGame,
-  winner,
-  draw,
 }) => {
+  const isNewGame = status.includes("Winner") || status.includes("Draw");
+
   return (
     <div className="board__info">
       <p className="board__title">
@@ -35,7 +33,7 @@ export const BoardInfo: React.FC<Props> = ({
         type="button"
         className="board__new-game-button"
         onClick={handleNewGame}
-        disabled={!winner && !draw}
+        disabled={!isNewGame}
       >
         New game
       </button>

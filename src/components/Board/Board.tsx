@@ -1,6 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { BoardInfo } from "../BoardInfo";
-import { calculateDraw, calculateWinner } from "../helpers";
+import {
+  calculateDraw,
+  calculateWinner,
+  predictDrawOrWinner,
+} from "../helpers";
 import { Modal } from "../Modal";
 import { NewPlayersForm } from "../NewPlayersForm";
 import { Square } from "../Square/Square";
@@ -16,15 +20,37 @@ export const Board: React.FC = () => {
   const [winner, winLine] = calculateWinner(squares) || [null, null];
   const draw = winner ? null : calculateDraw(squares);
 
-  let status;
+  let status: string;
+  const nextPlayer = isXNext ? players[0] : players[1];
+  
+  const predict = predictDrawOrWinner(squares, nextPlayer);
 
   if (winner) {
     status = "Winner: " + winner;
   } else {
-    status = "Next player: " + (isXNext ? players[0] : players[1]);
+    status = "Next player: " + nextPlayer;
   }
 
-  if (draw) {
+  const setNewScore = () => {
+    const newScore = score.slice();
+    
+    if ((winner && winner === players[0])
+      || (!winner && predict === "winNextPlayer")) {
+      newScore[0] = score[0] + 1;
+    } 
+
+    if (winner && winner === players[1]) {
+      newScore[1] = score[1] + 1;
+    }
+
+    setScore(newScore);
+  };
+
+  if (!winner && predict === "winNextPlayer") {
+    status = "Winner: " + nextPlayer;
+  }
+
+  if (draw || (!winner && predict === "draw")) {
     status = "Draw!";
   }
 
@@ -41,21 +67,13 @@ export const Board: React.FC = () => {
     setIsXNext(!isXNext);
   }, [isXNext, players, squares]);
 
-  const setNewScore = () => {
-    const newScore = score.slice();
-
-    if (winner && winner === players[0]) {
-      newScore[0] = score[0] + 1;
-    } 
-
-    if (winner && winner === players[1]) {
-      newScore[1] = score[1] + 1;
+  const handleNewGame = () => {
+    if (!winner
+      && squares.includes(" ")
+      && predict === "winNextPlayer") {
+      setNewScore();
     }
 
-    setScore(newScore);
-  };
-
-  const handleNewGame = () => {
     setSquares(Array(9).fill(" "));
     setIsXNext(true);
   };
@@ -94,8 +112,6 @@ export const Board: React.FC = () => {
           players={players}
           score={score}
           handleNewGame={handleNewGame}
-          winner={winner}
-          draw={draw}
         />
       </section>
       
