@@ -1,7 +1,8 @@
-import { useFormik } from "formik";
 import React, { useCallback, useEffect, useState } from "react";
+import { BoardInfo } from "../BoardInfo";
 import { calculateDraw, calculateWinner } from "../helpers";
 import { Modal } from "../Modal";
+import { NewPlayersForm } from "../NewPlayersForm";
 import { Square } from "../Square/Square";
 import "./Board.scss";
 
@@ -13,7 +14,8 @@ export const Board: React.FC = () => {
   const [showModal, setShowModal] = useState(true);
 
   const [winner, winLine] = calculateWinner(squares) || [null, null];
-  const draw = calculateDraw(squares);
+  const draw = winner ? null : calculateDraw(squares);
+
   let status;
 
   if (winner) {
@@ -38,28 +40,6 @@ export const Board: React.FC = () => {
     setSquares(newSquares);
     setIsXNext(!isXNext);
   }, [isXNext, players, squares]);
-
-  const formik = useFormik({
-     initialValues: {
-       player1: "",
-       player2: "",
-     },
-     onSubmit: (values) => {
-      const newPlayers = players.slice();
-      
-      //set default name if no enter names
-      newPlayers[0] = values.player1.trim() || newPlayers[0];
-      newPlayers[1] = values.player2.trim() || newPlayers[1];
-
-      //check for same entered names
-      newPlayers[1] = newPlayers[0] === newPlayers[1]
-      ? newPlayers[1] + "2"
-      : newPlayers[1];
-
-      setPlayers(newPlayers);
-      setShowModal(false);
-     },
-   });
 
   const setNewScore = () => {
     const newScore = score.slice();
@@ -99,62 +79,32 @@ export const Board: React.FC = () => {
               key={index}
             />
           ))}
+
+          {/* edge between squares */}
           <div className="board__edge"></div>
           <div className="board__edge board__edge--2" />
           <div className="board__edge board__edge--3" />
           <div className="board__edge board__edge--4" />
+          
+          {/* strikethrogh win line */}
           <div className={`board__winLine board__winLine--${winLine}`} />
         </div>
-        <div className="board__info">
-          <p className="board__title">
-            {status}
-          </p>
-          <p className="board__title">
-            Score
-          </p>
-          <p className="board__title">
-            {players[0]}: {score[0]}
-          </p>
-          <p className="board__title">
-            {players[1]}: {score[1]}
-          </p>
-          <button
-            type="button"
-            className="board__new-game"
-            onClick={handleNewGame}
-            disabled={!winner && !draw}
-          >
-            New game
-          </button>
-        </div>
+        <BoardInfo
+          status={status}
+          players={players}
+          score={score}
+          handleNewGame={handleNewGame}
+          winner={winner}
+          draw={draw}
+        />
       </section>
       
       <Modal show={showModal}>
-        <p>Please, enter players  game:</p>
-        <form onSubmit={formik.handleSubmit}>
-          <label htmlFor="player1">First Name</label>
-          <input
-            id="player1"
-            name="player1"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.player1}
-          />
-    
-          <label htmlFor="player2">Last Name</label>
-          <input
-            id="player2"
-            name="player2"
-            type="text"
-            onChange={formik.handleChange}
-            value={formik.values.player2}
-          />
-    
-          <button type="submit">Submit</button>
-          {draw && (
-            <button>Reset</button>
-          )}
-        </form>
+        <NewPlayersForm
+          players={players}
+          setPlayers={setPlayers}
+          setShowModal={setShowModal}
+        />
       </Modal>
     </>
   );
