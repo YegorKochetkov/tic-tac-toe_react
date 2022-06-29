@@ -19,11 +19,10 @@ export const Board: React.FC = () => {
 
   const [winner, winLine] = calculateWinner(squares) || [null, null];
   const draw = winner ? null : calculateDraw(squares);
+  const nextPlayer = isXNext ? players[0] : players[1];
+  const predict = predictDrawOrWinner(squares, nextPlayer);
 
   let status: string;
-  const nextPlayer = isXNext ? players[0] : players[1];
-  
-  const predict = predictDrawOrWinner(squares, nextPlayer);
 
   if (winner) {
     status = "Winner: " + winner;
@@ -31,28 +30,29 @@ export const Board: React.FC = () => {
     status = "Next player: " + nextPlayer;
   }
 
-  const setNewScore = () => {
-    const newScore = score.slice();
-    
-    if ((winner && winner === players[0])
-      || (!winner && predict === "winNextPlayer")) {
-      newScore[0] = score[0] + 1;
-    } 
-
-    if (winner && winner === players[1]) {
-      newScore[1] = score[1] + 1;
-    }
-
-    setScore(newScore);
-  };
-
-  if (!winner && predict === "winNextPlayer") {
+  if (!winner && predict === nextPlayer) {
     status = "Winner: " + nextPlayer;
   }
 
   if (draw || (!winner && predict === "draw")) {
     status = "Draw!";
   }
+
+  const setNewScore = () => {
+    const newScore = score.slice();
+    
+    if ((winner && winner === players[0])
+    || (!winner && predict === players[0])) {
+      newScore[0] = score[0] + 1;
+    } 
+
+    if ((winner && winner === players[1])
+    || (!winner && predict === players[1])) {
+      newScore[1] = score[1] + 1;
+    }
+
+    setScore(newScore);
+  };
 
   const handleClick = useCallback((i: number) => {
     const newSquares = squares.slice();
@@ -68,9 +68,13 @@ export const Board: React.FC = () => {
   }, [isXNext, players, squares]);
 
   const handleNewGame = () => {
+    // before reset board
+    // check if the players pressed the new game button
+    // after displaying predicted result
+    // or played the game to the end
     if (!winner
       && squares.includes(" ")
-      && predict === "winNextPlayer") {
+      && predict === nextPlayer) {
       setNewScore();
     }
 
