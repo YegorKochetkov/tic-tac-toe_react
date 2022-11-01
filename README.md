@@ -1,5 +1,5 @@
 ## Tic Tac Toe
-- Implement Tic Tac Toe game according to and [Task](https://docs.google.com/document/d/1-IQTz0IDDlpdmXXq7tBSVQzZVJ6NqN__/edit?usp=sharing&ouid=103482607589828971334&rtpof=true&sd=true) 
+- Implement Tic Tac Toe game according to [Task](https://docs.google.com/document/d/1-IQTz0IDDlpdmXXq7tBSVQzZVJ6NqN__/edit?usp=sharing&ouid=103482607589828971334&rtpof=true&sd=true) 
 
 ## Technology stack:
 - React, Formik, SASS, BEM, JS, Flexbox and CSS Grid
